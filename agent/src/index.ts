@@ -56,7 +56,7 @@ let telemetryLogs: Array<{
 function logTelemetry(type: 'agent' | 'enclave', message: string, data?: any) {
   const log = { timestamp: Date.now(), type, message, data };
   telemetryLogs.push(log);
-  console.log(`[${type.toUpperCase()}] ${message}`, data ? JSON.stringify(data) : '');
+  console.log(`[${type.toUpperCase()}] %s`, message, data ? JSON.stringify(data) : '');
   // Cap at 100 logs
   if (telemetryLogs.length > 100) {
     telemetryLogs.shift();
