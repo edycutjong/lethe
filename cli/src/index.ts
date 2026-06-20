@@ -5,11 +5,18 @@ import { LetheClient } from '@edycutjong/lethe-sdk';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as crypto from 'crypto';
+import * as dotenv from 'dotenv';
+
+// Load environment variables from .env.local and .env in current directory and parent directories
+dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
+dotenv.config({ path: path.resolve(process.cwd(), '.env') });
+dotenv.config({ path: path.resolve(__dirname, '../../.env.local') });
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 const program = new Command();
 const AGENT_URL = process.env.AGENT_URL || process.env.NEXT_PUBLIC_AGENT_URL || 'http://localhost:8080';
-const ENCLAVE_PUB_KEY = process.env.NEXT_PUBLIC_ENCLAVE_PUB_KEY || '04a5be7517ff3c0b57cbc5c9e29ddcccc6776fa3f9d6583283640f739d3202cb538b71744782ebe8b44f4ab9af45c65925d720f6e40a42a8219926a43c1e9ddf29';
-const ENCLAVE_PRIVATE_KEY = process.env.ENCLAVE_PRIVATE_KEY || 'c1caf2c7490915915829d9d7725f4fed657dc0dee37a8910e6be8abebe098de8';
+const ENCLAVE_PUB_KEY = process.env.NEXT_PUBLIC_ENCLAVE_PUB_KEY || process.env.ENCLAVE_PUB_KEY;
+const ENCLAVE_PRIVATE_KEY = process.env.ENCLAVE_PRIVATE_KEY;
 
 const letheSdk = new LetheClient({
   rpcUrl: 'https://rpc.bot-chain.sandbox.test',
@@ -44,6 +51,7 @@ program
       if (!fs.existsSync(templatePath)) {
         console.error(`Error: Template file not found at ${templatePath}`);
         process.exit(1);
+        return;
       }
       
       const rawTemplate = fs.readFileSync(templatePath, 'utf-8');
@@ -80,6 +88,11 @@ program
   .requiredOption('--ssn <ssn>', 'User SSN to be erased')
   .requiredOption('--brokers <brokers>', 'Comma-separated target broker IDs')
   .action(async (options) => {
+    if (!ENCLAVE_PUB_KEY) {
+      console.error('Error: Enclave Public Key is not defined. Please set NEXT_PUBLIC_ENCLAVE_PUB_KEY or ENCLAVE_PUB_KEY in your environment or .env file.');
+      process.exit(1);
+      return;
+    }
     const brokerList = options.brokers.split(',').map((s: string) => s.trim());
     console.log(`Starting right-to-erasure campaign for ${options.email} against ${brokerList.length} brokers...`);
 
@@ -160,6 +173,7 @@ program
       if (!fs.existsSync(receiptPath)) {
         console.error(`Error: Receipt file not found at ${receiptPath}`);
         process.exit(1);
+        return;
       }
 
       const rawReceipt = fs.readFileSync(receiptPath, 'utf-8');
@@ -192,6 +206,16 @@ program
   .option('--runs <count>', 'Number of benchmark runs', '50')
   .option('--concurrency <limit>', 'Concurrency level', '5')
   .action(async (options) => {
+    if (!ENCLAVE_PUB_KEY) {
+      console.error('Error: Enclave Public Key is not defined. Please set NEXT_PUBLIC_ENCLAVE_PUB_KEY or ENCLAVE_PUB_KEY in your environment or .env file.');
+      process.exit(1);
+      return;
+    }
+    if (!ENCLAVE_PRIVATE_KEY) {
+      console.error('Error: Enclave Private Key is not defined. Please set ENCLAVE_PRIVATE_KEY in your environment or .env file.');
+      process.exit(1);
+      return;
+    }
     const runs = parseInt(options.runs);
     console.log(`Running Lethe Performance Latency Benchmark Suite (${runs} iterations)...`);
 

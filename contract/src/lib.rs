@@ -3,7 +3,7 @@
 
 extern crate alloc;
 
-pub const CONTRACT_VERSION: &str = "1.0.2";
+pub const CONTRACT_VERSION: &str = "1.0.3";
 
 // Generate WIT bindings
 wit_bindgen::generate!({
@@ -89,7 +89,9 @@ fn decrypt_ecies_payload(envelope: &EciesEnvelope) -> Result<String, String> {
     let auth_tag_bytes = hex::decode(&envelope.auth_tag)
         .map_err(|e| format!("Failed to decode auth tag: {e}"))?;
 
-    let enclave_sk_bytes = hex::decode(ENCLAVE_PRIVATE_KEY)
+    let enclave_private_key = std::env::var("ENCLAVE_PRIVATE_KEY")
+        .unwrap_or_else(|_| ENCLAVE_PRIVATE_KEY.to_string());
+    let enclave_sk_bytes = hex::decode(&enclave_private_key)
         .map_err(|e| format!("Failed to decode private key: {e}"))?;
 
     // 2. Perform ECDH Diffie-Hellman
@@ -412,9 +414,12 @@ impl exports::lethe::agent::contracts::Guest for Component {
         }
 
         // 2. Cryptographic memory zeroization (Scrub private keys in volatile RAM)
-        let mut key_dummy = hex::decode(ENCLAVE_PRIVATE_KEY).unwrap();
-        for byte in key_dummy.iter_mut() {
-            unsafe { std::ptr::write_volatile(byte, 0u8); }
+        let enclave_private_key = std::env::var("ENCLAVE_PRIVATE_KEY")
+            .unwrap_or_else(|_| ENCLAVE_PRIVATE_KEY.to_string());
+        if let Ok(mut key_dummy) = hex::decode(&enclave_private_key) {
+            for byte in key_dummy.iter_mut() {
+                unsafe { std::ptr::write_volatile(byte, 0u8); }
+            }
         }
 
         // 3. Call host/user-removal API to wipe user profile on Terminal 3 host

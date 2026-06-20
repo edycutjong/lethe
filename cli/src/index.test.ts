@@ -50,6 +50,10 @@ describe('Lethe CLI Unit Tests', () => {
     mockReadFileSyncContent = '{}';
     mockMkdirSync.mockClear();
     mockWriteFileSync.mockClear();
+
+    // Reset env vars to mock keys
+    process.env.ENCLAVE_PRIVATE_KEY = ecdh.getPrivateKey('hex');
+    process.env.NEXT_PUBLIC_ENCLAVE_PUB_KEY = ecdh.getPublicKey('hex');
   });
 
   afterEach(() => {
@@ -121,6 +125,18 @@ describe('Lethe CLI Unit Tests', () => {
   });
 
   // --- 2. ERASE COMMAND ---
+
+  test('erase - fails when ENCLAVE_PUB_KEY is missing', async () => {
+    delete process.env.NEXT_PUBLIC_ENCLAVE_PUB_KEY;
+    delete process.env.ENCLAVE_PUB_KEY;
+    process.argv = ['node', 'lethe', 'erase', '--email', 'sophie@del.com', '--ssn', '999-88-7777', '--brokers', 'broker-1'];
+
+    const { program } = require('./index');
+    await program.parseAsync(process.argv);
+
+    expect(mockConsoleError).toHaveBeenCalledWith(expect.stringContaining('Error: Enclave Public Key is not defined'));
+    expect(mockExit).toHaveBeenCalledWith(1);
+  });
 
   test('erase - runs erasure campaign successfully', async () => {
     global.fetch = jest.fn()
@@ -248,6 +264,29 @@ describe('Lethe CLI Unit Tests', () => {
   });
 
   // --- 4. BENCHMARK COMMAND ---
+
+  test('bench - fails when ENCLAVE_PUB_KEY is missing', async () => {
+    delete process.env.NEXT_PUBLIC_ENCLAVE_PUB_KEY;
+    delete process.env.ENCLAVE_PUB_KEY;
+    process.argv = ['node', 'lethe', 'bench', '--runs', '1', '--concurrency', '1'];
+
+    const { program } = require('./index');
+    await program.parseAsync(process.argv);
+
+    expect(mockConsoleError).toHaveBeenCalledWith(expect.stringContaining('Error: Enclave Public Key is not defined'));
+    expect(mockExit).toHaveBeenCalledWith(1);
+  });
+
+  test('bench - fails when ENCLAVE_PRIVATE_KEY is missing', async () => {
+    delete process.env.ENCLAVE_PRIVATE_KEY;
+    process.argv = ['node', 'lethe', 'bench', '--runs', '1', '--concurrency', '1'];
+
+    const { program } = require('./index');
+    await program.parseAsync(process.argv);
+
+    expect(mockConsoleError).toHaveBeenCalledWith(expect.stringContaining('Error: Enclave Private Key is not defined'));
+    expect(mockExit).toHaveBeenCalledWith(1);
+  });
 
   test('bench - executes performance latency benchmark suite successfully', async () => {
     process.argv = ['node', 'lethe', 'bench', '--runs', '2', '--concurrency', '1'];

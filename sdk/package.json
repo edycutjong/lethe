@@ -1,6 +1,6 @@
 {
   "name": "@edycutjong/lethe-sdk",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Lethe Client SDK for secure right-to-erasure blinding, ECIES envelopes, and ZK proof generation",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -1,6 +1,6 @@
 {
   "name": "lethe-agent",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Lethe Node.js Coordinator Agent",
   "main": "dist/index.js",
   "scripts": {

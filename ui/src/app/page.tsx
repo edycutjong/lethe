@@ -33,7 +33,7 @@ interface TelemetryLog {
   data?: unknown;
 }
 
-export const ENCLAVE_PUB_KEY = process.env.NEXT_PUBLIC_ENCLAVE_PUB_KEY || '04a5be7517ff3c0b57cbc5c9e29ddcccc6776fa3f9d6583283640f739d3202cb538b71744782ebe8b44f4ab9af45c65925d720f6e40a42a8219926a43c1e9ddf29';
+export const ENCLAVE_PUB_KEY = process.env.NEXT_PUBLIC_ENCLAVE_PUB_KEY || '';
 const AGENT_URL = process.env.NEXT_PUBLIC_AGENT_URL || ('http://' + 'local' + 'host' + ':8080');
 const MOCK_BROKERS = [
   'zoominfo-mock', 'whitepages-mock', 'spokeo-mock', 'beenverified-mock', 'radaris-mock',
@@ -152,6 +152,10 @@ export default function LetheDashboard() {
 
   // Flow Step 2: Granting delegation authorization
   const handleAuthorize = async () => {
+    if (!ENCLAVE_PUB_KEY) {
+      await addLog('agent', 'Authorization failed: NEXT_PUBLIC_ENCLAVE_PUB_KEY is not defined in the environment. Please add it to your .env.local file.');
+      return;
+    }
     await addLog('agent', 'Compiling delegation policy schema...');
     try {
       // 1. ZK proof generation via UI API Route
