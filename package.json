@@ -3,6 +3,7 @@
   "version": "1.0.3",
   "private": true,
   "scripts": {
+    "gen:keys": "node scripts/gen-enclave-keypair.js",
     "bootstrap": "npm run bootstrap:sdk && npm run bootstrap:agent && npm run bootstrap:cli && npm run bootstrap:ui",
     "bootstrap:sdk": "cd sdk && npm install",
     "bootstrap:agent": "cd agent && npm install",

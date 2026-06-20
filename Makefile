@@ -1,4 +1,4 @@
-.PHONY: help bootstrap build test lint typecheck ci e2e lighthouse security-scan check-readiness verify-offline bench version-patch version-minor version-major
+.PHONY: help bootstrap gen-keys build test lint typecheck ci e2e lighthouse security-scan check-readiness verify-offline bench version-patch version-minor version-major
 .PHONY: bootstrap-sdk bootstrap-contract bootstrap-agent bootstrap-cli bootstrap-ui
 .PHONY: build-sdk build-contract build-agent build-cli build-ui
 .PHONY: test-sdk test-contract test-agent test-cli test-ui
@@ -14,6 +14,7 @@ help:
 	@echo "  bootstrap-agent    Install Agent dependencies only"
 	@echo "  bootstrap-cli      Install CLI dependencies only"
 	@echo "  bootstrap-ui       Install UI dependencies only"
+	@echo "  gen-keys           Generate a demo enclave secp256k1 keypair for .env.local"
 	@echo ""
 	@echo "── Build ──────────────────────────────────"
 	@echo "  build              Compile all packages (SDK → Contract → Agent → CLI → UI)"
@@ -70,6 +71,9 @@ bootstrap-cli:
 
 bootstrap-ui:
 	npm run bootstrap:ui
+
+gen-keys:
+	npm run gen:keys
 
 # ── Build ────────────────────────────────────────────
 build:

@@ -34,8 +34,16 @@ try {
   console.warn('Could not auto-seed brokers:', err);
 }
 
-// Shared private key for ECIES decryption inside the simulated enclave
-const ENCLAVE_PRIVATE_KEY = process.env.ENCLAVE_PRIVATE_KEY || 'c1caf2c7490915915829d9d7725f4fed657dc0dee37a8910e6be8abebe098de8';
+// Shared private key for ECIES decryption inside the simulated enclave.
+// Must be supplied via the environment — there is no insecure baked-in default.
+// In production this key is sealed inside the TEE and never exposed.
+// Generate a local demo keypair with: npm run gen:keys
+const ENCLAVE_PRIVATE_KEY: string = process.env.ENCLAVE_PRIVATE_KEY ?? (() => {
+  throw new Error(
+    'ENCLAVE_PRIVATE_KEY is not set. Copy .env.example to .env.local and run ' +
+    '`npm run gen:keys` to generate a matching secp256k1 keypair.'
+  );
+})();
 
 // Telemetry buffer for split-screen console log stream
 let telemetryLogs: Array<{

@@ -74,9 +74,6 @@ pub struct EvidenceData {
     pub timestamp: u64,
 }
 
-// Fixed private key matching our SDK generated public key
-const ENCLAVE_PRIVATE_KEY: &str = "b29d2f6ee9011fab5046eb7190f47c216e52438fa0fba67516e7c1e376673e9a";
-
 // Core decryption logic using k256, aes-gcm, hkdf, sha2
 fn decrypt_ecies_payload(envelope: &EciesEnvelope) -> Result<String, String> {
     // 1. Decode hex inputs
@@ -89,8 +86,10 @@ fn decrypt_ecies_payload(envelope: &EciesEnvelope) -> Result<String, String> {
     let auth_tag_bytes = hex::decode(&envelope.auth_tag)
         .map_err(|e| format!("Failed to decode auth tag: {e}"))?;
 
+    // The enclave private key is provided by the environment (sealed inside the
+    // TEE in production). There is no baked-in default — fail closed if missing.
     let enclave_private_key = std::env::var("ENCLAVE_PRIVATE_KEY")
-        .unwrap_or_else(|_| ENCLAVE_PRIVATE_KEY.to_string());
+        .map_err(|_| "ENCLAVE_PRIVATE_KEY is not set".to_string())?;
     let enclave_sk_bytes = hex::decode(&enclave_private_key)
         .map_err(|e| format!("Failed to decode private key: {e}"))?;
 
@@ -440,10 +439,15 @@ mod tests {
 
     const EPHEMERAL_PRIVATE_KEY: &str = "c9afa9d845ba75166b5c215767b1d6934e50c3db64db4a0f4439c6b41219b165";
 
+    // Demo enclave key used only by the test suite. Production reads the key from
+    // the environment (sealed in the TEE); this constant never ships in runtime code.
+    const ENCLAVE_PRIVATE_KEY: &str = "b29d2f6ee9011fab5046eb7190f47c216e52438fa0fba67516e7c1e376673e9a";
+
     #[test]
     fn test_decrypt_programmatic_payload() {
         use k256::elliptic_curve::sec1::ToEncodedPoint;
-        
+        std::env::set_var("ENCLAVE_PRIVATE_KEY", ENCLAVE_PRIVATE_KEY);
+
         // 1. Ephemeral key pair from fixed private key
         let ephemeral_sk_bytes = hex::decode(EPHEMERAL_PRIVATE_KEY).unwrap();
         let ephemeral_sk = k256::SecretKey::from_slice(&ephemeral_sk_bytes).unwrap();
@@ -495,6 +499,7 @@ mod tests {
     #[test]
     fn test_decrypt_invalid_ciphertext() {
         use k256::elliptic_curve::sec1::ToEncodedPoint;
+        std::env::set_var("ENCLAVE_PRIVATE_KEY", ENCLAVE_PRIVATE_KEY);
         let ephemeral_sk_bytes = hex::decode(EPHEMERAL_PRIVATE_KEY).unwrap();
         let ephemeral_sk = k256::SecretKey::from_slice(&ephemeral_sk_bytes).unwrap();
         let ephemeral_pk = ephemeral_sk.public_key();
