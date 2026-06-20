@@ -16,10 +16,21 @@ const letheSdk = new LetheClient({
   enclaveUrl: AGENT_URL
 });
 
+let version = '1.0.0';
+try {
+  const packageJsonPath = path.join(__dirname, '../package.json');
+  if (fs.existsSync(packageJsonPath)) {
+    const pkg = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+    version = pkg.version;
+  }
+} catch (_err) {
+  // fallback to default version
+}
+
 program
   .name('lethe')
   .description('Lethe CLI — Command Line Interface for Data Protection Officers')
-  .version('1.0.0');
+  .version(version);
 
 // 1. Register Data Broker Template
 program

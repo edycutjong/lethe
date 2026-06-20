@@ -1,4 +1,4 @@
-.PHONY: help bootstrap build test lint typecheck ci e2e lighthouse security-scan check-readiness verify-offline bench
+.PHONY: help bootstrap build test lint typecheck ci e2e lighthouse security-scan check-readiness verify-offline bench version-patch version-minor version-major
 .PHONY: bootstrap-sdk bootstrap-contract bootstrap-agent bootstrap-cli bootstrap-ui
 .PHONY: build-sdk build-contract build-agent build-cli build-ui
 .PHONY: test-sdk test-contract test-agent test-cli test-ui
@@ -45,6 +45,11 @@ help:
 	@echo "  security-scan      Run vulnerability audits and license compliance"
 	@echo "  check-readiness    Run the official submission readiness check"
 	@echo "  verify-offline     Run the enclave PII leak offline verification"
+	@echo ""
+	@echo "── Versioning ─────────────────────────────"
+	@echo "  version-patch      Bump patch version (x.y.z -> x.y.z+1) and commit"
+	@echo "  version-minor      Bump minor version (x.y.z -> x.y+1.0) and commit"
+	@echo "  version-major      Bump major version (x.y.z -> x+1.0.0) and commit"
 
 # ── Bootstrap ────────────────────────────────────────
 bootstrap:
@@ -138,3 +143,19 @@ check-readiness:
 
 verify-offline:
 	python3 scripts/verify_offline.py
+
+# ── Versioning ───────────────────────────────────────
+version-patch:
+	PATH="/opt/homebrew/bin:$$PATH" node scripts/bump-version.js patch
+	git add .
+	git commit -m "chore(release): bump version to $$(PATH="/opt/homebrew/bin:$$PATH" node -p "require('./package.json').version")"
+
+version-minor:
+	PATH="/opt/homebrew/bin:$$PATH" node scripts/bump-version.js minor
+	git add .
+	git commit -m "chore(release): bump version to $$(PATH="/opt/homebrew/bin:$$PATH" node -p "require('./package.json').version")"
+
+version-major:
+	PATH="/opt/homebrew/bin:$$PATH" node scripts/bump-version.js major
+	git add .
+	git commit -m "chore(release): bump version to $$(PATH="/opt/homebrew/bin:$$PATH" node -p "require('./package.json').version")"
