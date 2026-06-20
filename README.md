@@ -3,7 +3,7 @@
 
   <h1>Lethe 🌊</h1>
   <p><em>Autonomous right-to-erasure agent protecting PII via secure TEE enclaves and network egress blinding.</em></p>
-  <img src="docs/readme-hero.png" alt="Lethe Readme Hero" width="100%">
+  <img src="docs/readme-hero-animated.svg" alt="Lethe Readme Hero" width="100%">
 
   <br/>
 
