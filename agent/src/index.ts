@@ -35,7 +35,7 @@ try {
 }
 
 // Shared private key for ECIES decryption inside the simulated enclave
-const ENCLAVE_PRIVATE_KEY = process.env.ENCLAVE_PRIVATE_KEY || 'ENCLAVE_PRIVATE_KEY_PLACEHOLDER';
+const ENCLAVE_PRIVATE_KEY = process.env.ENCLAVE_PRIVATE_KEY || 'c1caf2c7490915915829d9d7725f4fed657dc0dee37a8910e6be8abebe098de8';
 
 // Telemetry buffer for split-screen console log stream
 let telemetryLogs: Array<{

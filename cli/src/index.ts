@@ -8,8 +8,8 @@ import * as crypto from 'crypto';
 
 const program = new Command();
 const AGENT_URL = process.env.AGENT_URL || process.env.NEXT_PUBLIC_AGENT_URL || 'http://localhost:8080';
-const ENCLAVE_PUB_KEY = process.env.NEXT_PUBLIC_ENCLAVE_PUB_KEY || 'NEXT_PUBLIC_ENCLAVE_PUB_KEY_PLACEHOLDER';
-const ENCLAVE_PRIVATE_KEY = process.env.ENCLAVE_PRIVATE_KEY || 'ENCLAVE_PRIVATE_KEY_PLACEHOLDER';
+const ENCLAVE_PUB_KEY = process.env.NEXT_PUBLIC_ENCLAVE_PUB_KEY || '04a5be7517ff3c0b57cbc5c9e29ddcccc6776fa3f9d6583283640f739d3202cb538b71744782ebe8b44f4ab9af45c65925d720f6e40a42a8219926a43c1e9ddf29';
+const ENCLAVE_PRIVATE_KEY = process.env.ENCLAVE_PRIVATE_KEY || 'c1caf2c7490915915829d9d7725f4fed657dc0dee37a8910e6be8abebe098de8';
 
 const letheSdk = new LetheClient({
   rpcUrl: 'https://rpc.bot-chain.sandbox.test',

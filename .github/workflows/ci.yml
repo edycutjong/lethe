@@ -188,7 +188,7 @@ jobs:
         run: |
           cd sdk && npm ci && npm run build
           cd ../agent && npm ci
-          cd ../ui && npm ci
+          cd ../ui && npm ci && npm run build
 
       - name: Install Playwright browsers
         run: cd ui && npx playwright install --with-deps chromium
