@@ -436,27 +436,34 @@ export!(Component);
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rand_core::OsRng;
+    use std::sync::Mutex;
 
-    const EPHEMERAL_PRIVATE_KEY: &str = "c9afa9d845ba75166b5c215767b1d6934e50c3db64db4a0f4439c6b41219b165";
+    // `decrypt_ecies_payload` reads ENCLAVE_PRIVATE_KEY from the process-global
+    // environment, so serialize the tests that set it to avoid parallel clobber.
+    static ENV_LOCK: Mutex<()> = Mutex::new(());
 
-    // Demo enclave key used only by the test suite. Production reads the key from
-    // the environment (sealed in the TEE); this constant never ships in runtime code.
-    const ENCLAVE_PRIVATE_KEY: &str = "b29d2f6ee9011fab5046eb7190f47c216e52438fa0fba67516e7c1e376673e9a";
+    // Generate a fresh secp256k1 keypair at runtime. No private-key material is
+    // hardcoded here — production seals its key inside the TEE.
+    fn random_enclave_key() -> (k256::SecretKey, String) {
+        let sk = k256::SecretKey::random(&mut OsRng);
+        let sk_hex = hex::encode(sk.to_bytes());
+        (sk, sk_hex)
+    }
 
     #[test]
     fn test_decrypt_programmatic_payload() {
         use k256::elliptic_curve::sec1::ToEncodedPoint;
-        std::env::set_var("ENCLAVE_PRIVATE_KEY", ENCLAVE_PRIVATE_KEY);
+        let _env = ENV_LOCK.lock().unwrap_or_else(|e| e.into_inner());
 
-        // 1. Ephemeral key pair from fixed private key
-        let ephemeral_sk_bytes = hex::decode(EPHEMERAL_PRIVATE_KEY).unwrap();
-        let ephemeral_sk = k256::SecretKey::from_slice(&ephemeral_sk_bytes).unwrap();
+        // 1. Fresh ephemeral key pair
+        let ephemeral_sk = k256::SecretKey::random(&mut OsRng);
         let ephemeral_pk = ephemeral_sk.public_key();
         let ephemeral_pk_hex = hex::encode(ephemeral_pk.to_encoded_point(false).as_bytes());
 
-        // 2. Enclave public key derived from private key
-        let enclave_sk_bytes = hex::decode(ENCLAVE_PRIVATE_KEY).unwrap();
-        let enclave_sk = k256::SecretKey::from_slice(&enclave_sk_bytes).unwrap();
+        // 2. Fresh enclave key pair; hand the private half to the decryptor via env
+        let (enclave_sk, enclave_sk_hex) = random_enclave_key();
+        std::env::set_var("ENCLAVE_PRIVATE_KEY", &enclave_sk_hex);
         let enclave_pk = enclave_sk.public_key();
 
         // 3. Compute shared secret
@@ -499,9 +506,10 @@ mod tests {
     #[test]
     fn test_decrypt_invalid_ciphertext() {
         use k256::elliptic_curve::sec1::ToEncodedPoint;
-        std::env::set_var("ENCLAVE_PRIVATE_KEY", ENCLAVE_PRIVATE_KEY);
-        let ephemeral_sk_bytes = hex::decode(EPHEMERAL_PRIVATE_KEY).unwrap();
-        let ephemeral_sk = k256::SecretKey::from_slice(&ephemeral_sk_bytes).unwrap();
+        let _env = ENV_LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        let (_enclave_sk, enclave_sk_hex) = random_enclave_key();
+        std::env::set_var("ENCLAVE_PRIVATE_KEY", &enclave_sk_hex);
+        let ephemeral_sk = k256::SecretKey::random(&mut OsRng);
         let ephemeral_pk = ephemeral_sk.public_key();
         let ephemeral_pk_hex = hex::encode(ephemeral_pk.to_encoded_point(false).as_bytes());
 
