@@ -27,6 +27,8 @@ jobs:
       # Quality Check for SDK
       - name: Install SDK dependencies
         run: cd sdk && npm ci
+      - name: Build SDK
+        run: cd sdk && npm run build
       - name: Typecheck SDK
         run: cd sdk && npx tsc --noEmit
 
