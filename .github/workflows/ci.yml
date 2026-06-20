@@ -220,6 +220,13 @@ jobs:
       - name: Install Playwright browsers
         run: cd ui && npx playwright install --with-deps chromium
 
+      # The agent (started by Playwright's webServer) now requires
+      # ENCLAVE_PRIVATE_KEY to boot — there is no insecure baked-in fallback.
+      # The e2e suite is demo-mode UI smoke testing, so an ephemeral key is
+      # sufficient (it only needs the agent process to come up). No secret needed.
+      - name: Generate ephemeral enclave key for the agent
+        run: node scripts/gen-enclave-keypair.js | grep '^ENCLAVE_PRIVATE_KEY=' >> "$GITHUB_ENV"
+
       - name: Run E2E tests
         run: cd ui && npm run e2e
         env:
