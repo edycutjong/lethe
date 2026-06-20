@@ -413,11 +413,11 @@ impl exports::lethe::agent::contracts::Guest for Component {
         }
 
         // 2. Cryptographic memory zeroization (Scrub private keys in volatile RAM)
-        let enclave_private_key = std::env::var("ENCLAVE_PRIVATE_KEY")
-            .unwrap_or_else(|_| ENCLAVE_PRIVATE_KEY.to_string());
-        if let Ok(mut key_dummy) = hex::decode(&enclave_private_key) {
-            for byte in key_dummy.iter_mut() {
-                unsafe { std::ptr::write_volatile(byte, 0u8); }
+        if let Ok(enclave_private_key) = std::env::var("ENCLAVE_PRIVATE_KEY") {
+            if let Ok(mut key_dummy) = hex::decode(&enclave_private_key) {
+                for byte in key_dummy.iter_mut() {
+                    unsafe { std::ptr::write_volatile(byte, 0u8); }
+                }
             }
         }
 
