@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { LetheClient } from '@lethe/sdk';
+import { LetheClient } from '@edycutjong/lethe-sdk';
 
 export async function POST(request: Request) {
   try {

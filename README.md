@@ -3,7 +3,7 @@
 
   <h1>Lethe 🌊</h1>
   <p><em>Autonomous right-to-erasure agent protecting PII via secure TEE enclaves and network egress blinding.</em></p>
-  <img src="docs/readme-hero-animated.svg" alt="Lethe Readme Hero" width="100%">
+  <img src="docs/readme-hero.png" alt="Lethe Readme Hero" width="100%">
 
   <br/>
 
@@ -178,7 +178,7 @@ lethe/
 ├── docs/                     # README assets (hero, pitch deck, mockup)
 │   ├── readme-hero.png
 │   └── readme.png
-├── sdk/                      # TypeScript SDK (@lethe/sdk)
+├── sdk/                      # TypeScript SDK (@edycutjong/lethe-sdk)
 ├── contract/                 # Rust WASM Component Contract source
 ├── agent/                    # Node.js Coordinator Agent
 │   ├── src/index.test.ts     # Jest Integration tests
@@ -186,7 +186,7 @@ lethe/
 ├── ui/                       # Next.js Dashboard App
 │   ├── e2e/                  # Playwright E2E tests
 │   └── src/app/              # Dashboard pages
-├── cli/                      # lethe-cli executable
+├── cli/                      # @edycutjong/lethe-cli executable
 ├── scripts/                  # Seeding, verification and leak checks
 ├── Makefile                  # Local Automation targets
 ├── package.json              # Workspace script coordinator

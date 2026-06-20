@@ -14,8 +14,8 @@ jest.mock('next/server', () => {
   };
 });
 
-// Mock @lethe/sdk
-jest.mock('@lethe/sdk', () => {
+// Mock @edycutjong/lethe-sdk
+jest.mock('@edycutjong/lethe-sdk', () => {
   return {
     LetheClient: jest.fn().mockImplementation(() => {
       return {

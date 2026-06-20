@@ -11,11 +11,11 @@ This document specifies the software architecture, package structures, and compo
 ├── README.md
 ├── AGENTS.md
 ├── .env.example
-├── sdk/                # TypeScript SDK (@lethe/sdk)
+├── sdk/                # TypeScript SDK (@edycutjong/lethe-sdk)
 ├── contract/           # Rust WASM Component Contract
 ├── agent/              # Node.js Coordinator Agent
 ├── ui/                 # Next.js Dashboard App
-├── cli/                # lethe-cli executable
+├── cli/                # @edycutjong/lethe-cli executable
 └── scripts/            # Benchmarking, seeding, and verification scripts
 ```
 

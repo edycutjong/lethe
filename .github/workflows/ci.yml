@@ -270,10 +270,10 @@ jobs:
         run: |
           cd sdk
           CURRENT_VERSION=$(node -p "require('./package.json').version")
-          if npm view @lethe/sdk@$CURRENT_VERSION version >/dev/null 2>&1; then
-            echo "Version $CURRENT_VERSION of @lethe/sdk is already published to npmjs, skipping."
+          if npm view @edycutjong/lethe-sdk@$CURRENT_VERSION version >/dev/null 2>&1; then
+            echo "Version $CURRENT_VERSION of @edycutjong/lethe-sdk is already published to npmjs, skipping."
           else
-            echo "Publishing @lethe/sdk version $CURRENT_VERSION to npmjs..."
+            echo "Publishing @edycutjong/lethe-sdk version $CURRENT_VERSION to npmjs..."
             npm publish --access public
           fi
         env:
@@ -289,10 +289,10 @@ jobs:
         run: |
           cd cli
           CURRENT_VERSION=$(node -p "require('./package.json').version")
-          if npm view lethe-cli@$CURRENT_VERSION version >/dev/null 2>&1; then
-            echo "Version $CURRENT_VERSION of lethe-cli is already published to npmjs, skipping."
+          if npm view @edycutjong/lethe-cli@$CURRENT_VERSION version >/dev/null 2>&1; then
+            echo "Version $CURRENT_VERSION of @edycutjong/lethe-cli is already published to npmjs, skipping."
           else
-            echo "Publishing lethe-cli version $CURRENT_VERSION to npmjs..."
+            echo "Publishing @edycutjong/lethe-cli version $CURRENT_VERSION to npmjs..."
             npm publish --access public
           fi
         env:

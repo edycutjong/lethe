@@ -19,7 +19,7 @@
     "next": "16.2.9",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "@lethe/sdk": "file:../sdk"
+    "@edycutjong/lethe-sdk": "file:../sdk"
   },
   "devDependencies": {
     "@lhci/cli": "^0.14.0",

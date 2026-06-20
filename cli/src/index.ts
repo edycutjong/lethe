@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander';
-import { LetheClient } from '@lethe/sdk';
+import { LetheClient } from '@edycutjong/lethe-sdk';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as crypto from 'crypto';

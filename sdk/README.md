@@ -1,4 +1,4 @@
-# Lethe SDK (`@lethe/sdk`)
+# Lethe SDK (`@edycutjong/lethe-sdk`)
 
 TypeScript client SDK for interacting with the Lethe erasure agent. Handles all client-side cryptographic operations: ECIES envelope encryption, ZK proof generation, campaign enqueuing, VC receipt verification, and self-destruct triggering.
 
@@ -9,7 +9,7 @@ TypeScript client SDK for interacting with the Lethe erasure agent. Handles all 
 ### `LetheClient` Class
 
 ```typescript
-import { LetheClient } from '@lethe/sdk';
+import { LetheClient } from '@edycutjong/lethe-sdk';
 
 const client = new LetheClient({
   rpcUrl: 'https://rpc.bot-chain.sandbox.test',

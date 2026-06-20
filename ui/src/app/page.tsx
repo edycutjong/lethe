@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import type { ZkProof, EciesEnvelope } from '@lethe/sdk';
+import type { ZkProof, EciesEnvelope } from '@edycutjong/lethe-sdk';
 
 interface Broker {
   id: string;

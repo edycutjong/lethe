@@ -1,6 +1,6 @@
-# Lethe CLI (`lethe-cli`)
+# Lethe CLI (`@edycutjong/lethe-cli`)
 
-Command-line interface for Data Protection Officers (DPOs) and power users to manage GDPR/CCPA right-to-erasure campaigns. Wraps the `@lethe/sdk` to provide terminal access to broker registration, batch deletion, receipt verification, and performance benchmarking.
+Command-line interface for Data Protection Officers (DPOs) and power users to manage GDPR/CCPA right-to-erasure campaigns. Wraps the `@edycutjong/lethe-sdk` to provide terminal access to broker registration, batch deletion, receipt verification, and performance benchmarking.
 
 ## Commands
 
@@ -78,6 +78,6 @@ npm test
 | Package | Purpose |
 |---|---|
 | `commander` | CLI argument parsing |
-| `@lethe/sdk` | Core cryptographic operations |
+| `@edycutjong/lethe-sdk` | Core cryptographic operations |
 | `fs` / `path` | File I/O for templates and receipts |
 | `crypto` | Node.js built-in for benchmarking |
