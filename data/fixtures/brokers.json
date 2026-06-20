@@ -1,0 +1,242 @@
+[
+  {
+    "id": "zoominfo-mock",
+    "host": "zoominfo.sandbox.test",
+    "path": "/gdpr/delete",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\",\"request_type\":\"erasure\"}"
+  },
+  {
+    "id": "whitepages-mock",
+    "host": "whitepages.sandbox.test",
+    "path": "/ccpa/remove",
+    "template": "{\"ssn\":\"{{profile.ssn}}\",\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "spokeo-mock",
+    "host": "spokeo.sandbox.test",
+    "path": "/gdpr/delete",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "beenverified-mock",
+    "host": "beenverified.sandbox.test",
+    "path": "/ccpa/delete",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\",\"ssn\":\"{{profile.ssn}}\"}"
+  },
+  {
+    "id": "radaris-mock",
+    "host": "radaris.sandbox.test",
+    "path": "/ccpa/optout",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "intelius-mock",
+    "host": "intelius.sandbox.test",
+    "path": "/gdpr/delete",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "truthfinder-mock",
+    "host": "truthfinder.sandbox.test",
+    "path": "/gdpr/delete",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "instantcheckmate-mock",
+    "host": "instantcheckmate.sandbox.test",
+    "path": "/ccpa/delete",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "ussearch-mock",
+    "host": "ussearch.sandbox.test",
+    "path": "/gdpr/delete",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "peoplesmart-mock",
+    "host": "peoplesmart.sandbox.test",
+    "path": "/ccpa/optout",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "peoplefinder-mock",
+    "host": "peoplefinder.sandbox.test",
+    "path": "/gdpr/delete",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "privateeye-mock",
+    "host": "privateeye.sandbox.test",
+    "path": "/ccpa/remove",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "publicrecords-mock",
+    "host": "publicrecords.sandbox.test",
+    "path": "/gdpr/delete",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "searchpeoplefree-mock",
+    "host": "searchpeoplefree.sandbox.test",
+    "path": "/ccpa/optout",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "truepeoplesearch-mock",
+    "host": "truepeoplesearch.sandbox.test",
+    "path": "/gdpr/delete",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "cyberbackgroundchecks-mock",
+    "host": "cyberbackgroundchecks.sandbox.test",
+    "path": "/ccpa/delete",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\",\"ssn\":\"{{profile.ssn}}\"}"
+  },
+  {
+    "id": "fastpeoplesearch-mock",
+    "host": "fastpeoplesearch.sandbox.test",
+    "path": "/gdpr/delete",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "locatepeople-mock",
+    "host": "locatepeople.sandbox.test",
+    "path": "/ccpa/remove",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "nationalbackground-mock",
+    "host": "nationalbackground.sandbox.test",
+    "path": "/gdpr/delete",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "backgroundchecks-mock",
+    "host": "backgroundchecks.sandbox.test",
+    "path": "/ccpa/delete",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "verispy-mock",
+    "host": "verispy.sandbox.test",
+    "path": "/gdpr/delete",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "checkmate-mock",
+    "host": "checkmate.sandbox.test",
+    "path": "/ccpa/remove",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "peoplesearchnow-mock",
+    "host": "peoplesearchnow.sandbox.test",
+    "path": "/gdpr/delete",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "smartbackgroundchecks-mock",
+    "host": "smartbackgroundchecks.sandbox.test",
+    "path": "/ccpa/delete",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "idtrue-mock",
+    "host": "idtrue.sandbox.test",
+    "path": "/gdpr/delete",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "gladiknow-mock",
+    "host": "gladiknow.sandbox.test",
+    "path": "/ccpa/remove",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "peekyou-mock",
+    "host": "peekyou.sandbox.test",
+    "path": "/gdpr/delete",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "zabasearch-mock",
+    "host": "zabasearch.sandbox.test",
+    "path": "/ccpa/optout",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "findpeoplesearch-mock",
+    "host": "findpeoplesearch.sandbox.test",
+    "path": "/gdpr/delete",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "webmii-mock",
+    "host": "webmii.sandbox.test",
+    "path": "/gdpr/delete",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "infotracer-mock",
+    "host": "infotracer.sandbox.test",
+    "path": "/ccpa/remove",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "anywho-mock",
+    "host": "anywho.sandbox.test",
+    "path": "/gdpr/delete",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "lexisnexis-mock",
+    "host": "lexisnexis.sandbox.test",
+    "path": "/ccpa/delete",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\",\"ssn\":\"{{profile.ssn}}\"}"
+  },
+  {
+    "id": "experian-mock",
+    "host": "experian.sandbox.test",
+    "path": "/gdpr/delete",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "equifax-mock",
+    "host": "equifax.sandbox.test",
+    "path": "/gdpr/delete",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "transunion-mock",
+    "host": "transunion.sandbox.test",
+    "path": "/ccpa/delete",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "acxiom-mock",
+    "host": "acxiom.sandbox.test",
+    "path": "/gdpr/delete",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "epsilon-mock",
+    "host": "epsilon.sandbox.test",
+    "path": "/ccpa/remove",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "oracle-data-mock",
+    "host": "oracle.sandbox.test",
+    "path": "/gdpr/delete",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  },
+  {
+    "id": "salesforce-mock",
+    "host": "salesforce.sandbox.test",
+    "path": "/ccpa/delete",
+    "template": "{\"email\":\"{{profile.verified_contacts.email.value}}\"}"
+  }
+]

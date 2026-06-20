@@ -1,0 +1,16 @@
+{
+  "id": "receipt_verify-broker-mock_1781928373",
+  "issuer": "did:t3n:lethe-enclave-signer",
+  "credentialSubject": {
+    "status": "deleted",
+    "broker": "verify-broker-mock",
+    "timestamp": 1781928373
+  },
+  "proof": {
+    "type": "JsonWebSignature2020",
+    "created": 1781928373,
+    "verificationMethod": "did:t3n:lethe-enclave-signer#key-1",
+    "proofPurpose": "assertionMethod",
+    "signatureValue": "72689145cfc17a5df834bff7e50a74db6dfce8744fdd6aa79ccfbacf29c53fd385c39adc7630fd8db1ec49fbfb9e722dcb716d8be79d50280c6fc2fd63aeabbc"
+  }
+}

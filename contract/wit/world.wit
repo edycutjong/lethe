@@ -1,0 +1,41 @@
+package lethe:agent@1.0.0;
+
+world lethe {
+    import host:tenant/tenant-context@1.0.0;
+    import host:interfaces/logging@2.1.0;
+    import host:interfaces/kv-store@2.1.0;
+    import host:interfaces/http-with-placeholders@2.1.0;
+    import host:interfaces/signing@2.1.0;
+    import host:interfaces/user-removal@2.1.0;
+    import host:interfaces/user-profile@2.1.0;
+    import host:interfaces/authorisation@2.1.0;
+    import host:interfaces/clock@2.1.0;
+    import host:outbox/outbox@1.0.0;
+
+    import chain-rpc;
+    import zk-verify;
+
+    export contracts;
+}
+
+interface chain-rpc {
+    query-payment: func(tx-hash: string) -> result<bool, string>;
+}
+
+interface zk-verify {
+    verify-proof: func(proof: string, public-signals: string) -> result<bool, string>;
+}
+
+interface contracts {
+    record generic-input {
+        input:        option<list<u8>>,
+        user-profile: option<list<u8>>,
+        context:      option<list<u8>>,
+    }
+
+    register-broker:  func(req: generic-input) -> result<list<u8>, string>;
+    enqueue-erasure:  func(req: generic-input) -> result<list<u8>, string>;
+    fire-erasure:     func(req: generic-input) -> result<list<u8>, string>;
+    get-evidence:     func(req: generic-input) -> result<list<u8>, string>;
+    forget-me:        func(req: generic-input) -> result<list<u8>, string>;
+}

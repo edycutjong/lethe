@@ -1,0 +1,12 @@
+{
+  "did:t3n:sophie123": {
+    "first_name": "Sophie",
+    "last_name": "Miller",
+    "ssn": "999-88-7777",
+    "verified_contacts": {
+      "email": {
+        "value": "sophie@broker-bypass.com"
+      }
+    }
+  }
+}

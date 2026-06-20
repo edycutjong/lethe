@@ -1,0 +1,54 @@
+package host:outbox@1.0.0;
+
+interface outbox {
+    enum verb {
+        get,
+        post,
+        put,
+        patch,
+        delete,
+    }
+
+    record request {
+        method: verb,
+        url: string,
+        headers: list<tuple<string, string>>,
+        body: list<u8>,
+    }
+
+    variant outbox-error {
+        invalid-idk(string),
+        idk-collision,
+        outbox-full,
+        no-active-tx,
+        host-not-allowed(string),
+        invalid-url(string),
+        kv(string),
+        decode(string),
+        leader-only,
+    }
+
+    record ack-metadata {
+        at-seq: u64,
+    }
+
+    record committed-ack {
+        meta: ack-metadata,
+        upstream-ref: option<string>,
+        response-digest: list<u8>,
+    }
+
+    record failed-ack {
+        meta: ack-metadata,
+        error-kind: string,
+    }
+
+    variant outbox-status {
+        pending,
+        committed(committed-ack),
+        failed(failed-ack),
+    }
+
+    enqueue: func(idk: string, request: request) -> result<_, outbox-error>;
+    status: func(idk: string) -> result<option<outbox-status>, outbox-error>;
+}

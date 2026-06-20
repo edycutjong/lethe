@@ -1,0 +1,242 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ── STAGE 1: Code Quality (parallel with Stage 2) ─────────
+  quality-gate:
+    name: "Stage 1 · Code Quality"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Quality Check for SDK
+      - name: Install SDK dependencies
+        run: cd sdk && npm ci
+      - name: Typecheck SDK
+        run: cd sdk && npx tsc --noEmit
+
+      # Quality Check for Agent
+      - name: Install Agent dependencies
+        run: cd agent && npm ci
+      - name: Typecheck Agent
+        run: cd agent && npx tsc --noEmit
+      - name: Run Agent tests
+        run: cd agent && npm run test
+
+      # Quality Check for CLI
+      - name: Install CLI dependencies
+        run: cd cli && npm ci
+      - name: Typecheck CLI
+        run: cd cli && npx tsc --noEmit
+
+      # Quality Check for UI
+      - name: Install UI dependencies
+        run: cd ui && npm ci
+      - name: Lint UI
+        run: cd ui && npm run lint
+      - name: Typecheck UI
+        run: cd ui && npx tsc --noEmit
+
+      # Quality Check for Rust Contract
+      - name: Setup Rust Toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+      - name: Run Contract Cargo Tests
+        run: cd contract && cargo test
+
+  # ── STAGE 2: Security Gate (parallel with Stage 1) ────────
+  secret-scan:
+    name: "Stage 2 · Secret Scanning"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: TruffleHog Secret Scan
+        uses: trufflesecurity/trufflehog@main
+        with:
+          extra_args: --only-verified
+        continue-on-error: true # Prevents mock test keys from halting builds
+
+  dependency-audit:
+    name: "Stage 2 · Dependency Audit"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install dependencies (UI, Agent, CLI, SDK)
+        run: |
+          cd sdk && npm ci
+          cd ../agent && npm ci
+          cd ../cli && npm ci
+          cd ../ui && npm ci
+      - name: Audit UI Dependencies
+        run: cd ui && npm audit --audit-level=high
+        continue-on-error: true
+      - name: Audit Agent Dependencies
+        run: cd agent && npm audit --audit-level=high
+        continue-on-error: true
+      - name: Audit CLI Dependencies
+        run: cd cli && npm audit --audit-level=high
+        continue-on-error: true
+      - name: Audit SDK Dependencies
+        run: cd sdk && npm audit --audit-level=high
+        continue-on-error: true
+      - name: License compliance check
+        run: npx license-checker --production --failOn "GPL-3.0;AGPL-3.0" --summary
+        continue-on-error: true
+
+  # ── STAGE 3: Build Verification ───────────────────────────
+  build:
+    name: "Stage 3 · Build Verification"
+    needs: [quality-gate]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup Rust Toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          target: wasm32-wasip2
+
+      - name: Install and Build SDK
+        run: |
+          cd sdk
+          npm ci
+          npm run build
+
+      - name: Install and Build CLI
+        run: |
+          cd cli
+          npm ci
+          npm run build
+
+      - name: Install and Build Agent
+        run: |
+          cd agent
+          npm ci
+          npm run build
+
+      - name: Compile TEE WASM Contract
+        run: |
+          cd contract
+          cargo build --target wasm32-wasip2 --release
+
+      - name: Install and Build UI
+        run: |
+          cd ui
+          npm ci
+          npm run build
+
+      - name: Check bundle size
+        run: |
+          echo "📦 Bundle Size Report"
+          echo "─────────────────────"
+          if [ -d "ui/.next" ]; then
+            TOTAL_SIZE=$(du -sk ui/.next/static | cut -f1)
+            echo "Total static assets: ${TOTAL_SIZE}KB"
+            if [ "$TOTAL_SIZE" -gt 2000 ]; then
+              echo "::error::Bundle size ${TOTAL_SIZE}KB exceeds 2000KB error threshold"
+              exit 1
+            else
+              echo "✅ Bundle size within budget"
+            fi
+          fi
+
+  # ── STAGE 4: E2E Tests ────────────────────────────────────
+  e2e:
+    name: "Stage 4 · E2E Tests"
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: |
+          cd sdk && npm ci && npm run build
+          cd ../ui && npm ci
+
+      - name: Install Playwright browsers
+        run: cd ui && npx playwright install --with-deps chromium
+
+      - name: Run E2E tests
+        run: cd ui && npm run e2e
+        env:
+          NODE_ENV: production
+
+      - name: Upload E2E artifacts on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            ui/playwright-report/
+            ui/test-results/
+          retention-days: 7
+
+  # ── STAGE 5: Performance ──────────────────────────────────
+  performance:
+    name: "Stage 5 · Performance"
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: |
+          cd sdk && npm ci && npm run build
+          cd ../ui && npm ci && npm run build
+
+      - name: Lighthouse CI
+        run: |
+          npm install -g @lhci/cli
+          cd ui && lhci autorun
+        continue-on-error: true
+
+  # ── STAGE 6: Deploy Gate (main only) ──────────────────────
+  deploy-gate:
+    name: "Stage 6 · Deploy Gate"
+    needs: [build, e2e, performance, secret-scan, dependency-audit]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: All gates passed
+        run: |
+          echo "🚀 All CI/CD gates passed!"

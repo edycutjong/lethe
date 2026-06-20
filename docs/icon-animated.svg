@@ -1,0 +1,189 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Brand Gradient -->
+    <linearGradient id="brandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff9f0a" />
+      <stop offset="100%" stop-color="#30d158" />
+    </linearGradient>
+
+    <!-- Pulsing glow gradient for the shield -->
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="rgba(255, 255, 255, 0.08)" />
+      <stop offset="100%" stop-color="rgba(255, 255, 255, 0.01)" />
+    </linearGradient>
+
+    <!-- Glow Filter with animated intensity -->
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="16" result="blur">
+        <animate attributeName="stdDeviation" values="12;20;12" dur="3s" repeatCount="indefinite" />
+      </feGaussianBlur>
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <!-- Outer ring glow -->
+    <filter id="ringGlow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Grid Dots — subtle pulse -->
+  <g opacity="0.15">
+    <circle cx="96" cy="96" r="3" fill="#ffffff">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="4s" begin="0s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="256" cy="96" r="3" fill="#ffffff">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="4s" begin="0.5s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="416" cy="96" r="3" fill="#ffffff">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="4s" begin="1s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="96" cy="256" r="3" fill="#ffffff">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="4s" begin="1.5s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="416" cy="256" r="3" fill="#ffffff">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="4s" begin="2s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="96" cy="416" r="3" fill="#ffffff">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="4s" begin="2.5s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="256" cy="416" r="3" fill="#ffffff">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="4s" begin="3s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="416" cy="416" r="3" fill="#ffffff">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="4s" begin="3.5s" repeatCount="indefinite" />
+    </circle>
+  </g>
+
+  <!-- Outer Ring — rotating dashed stroke -->
+  <circle cx="256" cy="256" r="220" fill="none" stroke="url(#brandGrad)" stroke-width="4" opacity="0.4" stroke-dasharray="12 6" filter="url(#ringGlow)">
+    <animateTransform attributeName="transform" type="rotate" from="0 256 256" to="360 256 256" dur="60s" repeatCount="indefinite" />
+    <animate attributeName="opacity" values="0.25;0.5;0.25" dur="4s" repeatCount="indefinite" />
+  </circle>
+
+  <!-- Inner scanning ring -->
+  <circle cx="256" cy="256" r="180" fill="none" stroke="url(#brandGrad)" stroke-width="1.5" opacity="0" stroke-dasharray="4 8">
+    <animateTransform attributeName="transform" type="rotate" from="360 256 256" to="0 256 256" dur="30s" repeatCount="indefinite" />
+    <animate attributeName="opacity" values="0;0.3;0" dur="5s" repeatCount="indefinite" />
+  </circle>
+
+  <!-- Shield Backdrop -->
+  <path d="M256,70 C350,70 410,110 410,190 C410,290 310,395 256,442 C202,395 102,290 102,190 C102,110 162,70 256,70 Z"
+        fill="url(#shieldGrad)" stroke="rgba(255,255,255,0.1)" stroke-width="2">
+    <animate attributeName="stroke-opacity" values="0.05;0.15;0.05" dur="3s" repeatCount="indefinite" />
+  </path>
+
+  <!-- Left Solid Shield Half — breathing glow -->
+  <path d="M256,105 C310,105 350,135 350,190 C350,250 295,330 256,368 L256,105 Z"
+        fill="url(#brandGrad)" filter="url(#glow)">
+    <animate attributeName="opacity" values="0.8;0.95;0.8" dur="3s" repeatCount="indefinite" />
+  </path>
+
+  <!-- Right Side: Dissolving Pixel Slices — staggered wipe animation -->
+  <g fill="url(#brandGrad)">
+    <!-- Row 1 -->
+    <rect x="264" y="120" width="80" height="6" rx="3">
+      <animate attributeName="width" values="80;20;80" dur="4s" begin="0s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.9;0.2;0.9" dur="4s" begin="0s" repeatCount="indefinite" />
+    </rect>
+    <!-- Row 2 -->
+    <rect x="264" y="140" width="65" height="6" rx="3">
+      <animate attributeName="width" values="65;30;65" dur="4s" begin="0.3s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.8;0.15;0.8" dur="4s" begin="0.3s" repeatCount="indefinite" />
+    </rect>
+    <!-- Row 3 -->
+    <rect x="264" y="160" width="75" height="6" rx="3">
+      <animate attributeName="width" values="75;10;75" dur="4s" begin="0.6s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.7;0.1;0.7" dur="4s" begin="0.6s" repeatCount="indefinite" />
+    </rect>
+    <!-- Row 4 -->
+    <rect x="264" y="180" width="55" height="6" rx="3">
+      <animate attributeName="width" values="55;15;55" dur="4s" begin="0.9s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.85;0.1;0.85" dur="4s" begin="0.9s" repeatCount="indefinite" />
+    </rect>
+    <!-- Row 5 -->
+    <rect x="264" y="200" width="85" height="6" rx="3">
+      <animate attributeName="width" values="85;5;85" dur="4s" begin="1.2s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.6;0.05;0.6" dur="4s" begin="1.2s" repeatCount="indefinite" />
+    </rect>
+    <!-- Row 6 -->
+    <rect x="264" y="220" width="45" height="6" rx="3">
+      <animate attributeName="width" values="45;10;45" dur="4s" begin="1.5s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.75;0.1;0.75" dur="4s" begin="1.5s" repeatCount="indefinite" />
+    </rect>
+    <!-- Row 7 -->
+    <rect x="264" y="240" width="70" height="6" rx="3">
+      <animate attributeName="width" values="70;8;70" dur="4s" begin="1.8s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.5;0.05;0.5" dur="4s" begin="1.8s" repeatCount="indefinite" />
+    </rect>
+    <!-- Row 8 -->
+    <rect x="264" y="260" width="35" height="6" rx="3">
+      <animate attributeName="width" values="35;5;35" dur="4s" begin="2.1s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.7;0.05;0.7" dur="4s" begin="2.1s" repeatCount="indefinite" />
+    </rect>
+    <!-- Row 9 -->
+    <rect x="264" y="280" width="50" height="6" rx="3">
+      <animate attributeName="width" values="50;3;50" dur="4s" begin="2.4s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.4;0.02;0.4" dur="4s" begin="2.4s" repeatCount="indefinite" />
+    </rect>
+    <!-- Row 10 -->
+    <rect x="264" y="300" width="25" height="6" rx="3">
+      <animate attributeName="width" values="25;2;25" dur="4s" begin="2.7s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.6;0.02;0.6" dur="4s" begin="2.7s" repeatCount="indefinite" />
+    </rect>
+    <!-- Row 11 -->
+    <rect x="264" y="320" width="35" height="6" rx="3">
+      <animate attributeName="width" values="35;2;35" dur="4s" begin="3.0s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.3;0.01;0.3" dur="4s" begin="3.0s" repeatCount="indefinite" />
+    </rect>
+    <!-- Row 12 -->
+    <rect x="264" y="340" width="15" height="6" rx="3">
+      <animate attributeName="width" values="15;1;15" dur="4s" begin="3.3s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.5;0.01;0.5" dur="4s" begin="3.3s" repeatCount="indefinite" />
+    </rect>
+  </g>
+
+  <!-- Dispersed digital particles — drift outward and fade -->
+  <g fill="url(#brandGrad)">
+    <rect x="355" y="120" width="6" height="6" rx="1.5">
+      <animate attributeName="x" values="355;390;355" dur="4s" begin="0s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.8;0;0.8" dur="4s" begin="0s" repeatCount="indefinite" />
+    </rect>
+    <rect x="340" y="140" width="6" height="6" rx="1.5">
+      <animate attributeName="x" values="340;380;340" dur="4s" begin="0.4s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.6;0;0.6" dur="4s" begin="0.4s" repeatCount="indefinite" />
+    </rect>
+    <rect x="350" y="160" width="6" height="6" rx="1.5">
+      <animate attributeName="x" values="350;400;350" dur="4s" begin="0.8s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.5;0;0.5" dur="4s" begin="0.8s" repeatCount="indefinite" />
+    </rect>
+    <rect x="325" y="180" width="6" height="6" rx="1.5">
+      <animate attributeName="x" values="325;370;325" dur="4s" begin="1.2s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.7;0;0.7" dur="4s" begin="1.2s" repeatCount="indefinite" />
+    </rect>
+    <rect x="360" y="200" width="6" height="6" rx="1.5">
+      <animate attributeName="x" values="360;410;360" dur="4s" begin="1.6s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.4;0;0.4" dur="4s" begin="1.6s" repeatCount="indefinite" />
+    </rect>
+    <rect x="320" y="220" width="6" height="6" rx="1.5">
+      <animate attributeName="x" values="320;375;320" dur="4s" begin="2.0s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.6;0;0.6" dur="4s" begin="2.0s" repeatCount="indefinite" />
+    </rect>
+    <rect x="345" y="240" width="6" height="6" rx="1.5">
+      <animate attributeName="x" values="345;395;345" dur="4s" begin="2.4s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.3;0;0.3" dur="4s" begin="2.4s" repeatCount="indefinite" />
+    </rect>
+    <rect x="310" y="260" width="6" height="6" rx="1.5">
+      <animate attributeName="x" values="310;365;310" dur="4s" begin="2.8s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.5;0;0.5" dur="4s" begin="2.8s" repeatCount="indefinite" />
+    </rect>
+    <rect x="325" y="280" width="6" height="6" rx="1.5">
+      <animate attributeName="x" values="325;385;325" dur="4s" begin="3.2s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.2;0;0.2" dur="4s" begin="3.2s" repeatCount="indefinite" />
+    </rect>
+    <rect x="300" y="300" width="6" height="6" rx="1.5">
+      <animate attributeName="x" values="300;360;300" dur="4s" begin="3.6s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.4;0;0.4" dur="4s" begin="3.6s" repeatCount="indefinite" />
+    </rect>
+  </g>
+</svg>
