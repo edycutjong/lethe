@@ -1,6 +1,6 @@
 [package]
 name = "lethe-contract"
-version = "1.0.1"
+version = "1.0.2"
 edition = "2021"
 description = "Lethe right-to-erasure TEE contract"
 license = "MIT"

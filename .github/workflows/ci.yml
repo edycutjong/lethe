@@ -242,3 +242,57 @@ jobs:
       - name: All gates passed
         run: |
           echo "🚀 All CI/CD gates passed!"
+
+  # ── STAGE 7: Publish to npmjs (main only) ──────────────────
+  publish-npm:
+    name: "Stage 7 · Publish to npmjs"
+    needs: [deploy-gate]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install and Build SDK
+        run: |
+          cd sdk
+          npm ci
+          npm run build
+
+      - name: Check and Publish SDK
+        run: |
+          cd sdk
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          if npm view @lethe/sdk@$CURRENT_VERSION version >/dev/null 2>&1; then
+            echo "Version $CURRENT_VERSION of @lethe/sdk is already published to npmjs, skipping."
+          else
+            echo "Publishing @lethe/sdk version $CURRENT_VERSION to npmjs..."
+            npm publish --access public
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Install and Build CLI
+        run: |
+          cd cli
+          npm ci
+          npm run build
+
+      - name: Check and Publish CLI
+        run: |
+          cd cli
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          if npm view lethe-cli@$CURRENT_VERSION version >/dev/null 2>&1; then
+            echo "Version $CURRENT_VERSION of lethe-cli is already published to npmjs, skipping."
+          else
+            echo "Publishing lethe-cli version $CURRENT_VERSION to npmjs..."
+            npm publish --access public
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

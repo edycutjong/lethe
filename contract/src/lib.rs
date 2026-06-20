@@ -3,7 +3,7 @@
 
 extern crate alloc;
 
-pub const CONTRACT_VERSION: &str = "1.0.1";
+pub const CONTRACT_VERSION: &str = "1.0.2";
 
 // Generate WIT bindings
 wit_bindgen::generate!({

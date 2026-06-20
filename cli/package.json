@@ -1,6 +1,6 @@
 {
   "name": "lethe-cli",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Lethe Command Line Interface for Data Protection Officers",
   "main": "dist/index.js",
   "bin": {

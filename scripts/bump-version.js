@@ -82,5 +82,18 @@ if (fs.existsSync(libRsPath)) {
   console.warn('Warning: contract/src/lib.rs not found');
 }
 
+// 5. Update contract/Cargo.lock to match Cargo.toml version
+const { execSync } = require('child_process');
+try {
+  console.log('Updating Cargo.lock...');
+  execSync('cargo update -p lethe-contract', {
+    cwd: path.join(rootDir, 'contract'),
+    env: { ...process.env, PATH: `/opt/homebrew/bin:${process.env.PATH || ''}:/usr/local/bin:${process.env.HOME || ''}/.cargo/bin` },
+    stdio: 'inherit'
+  });
+} catch (err) {
+  console.warn('Warning: Failed to update Cargo.lock:', err.message);
+}
+
 console.log(`Successfully bumped all version references to ${newVersion}`);
 console.log(`::set-output name=new_version::${newVersion}`);
