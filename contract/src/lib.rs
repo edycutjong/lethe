@@ -245,6 +245,7 @@ impl exports::lethe::agent::contracts::Guest for Component {
 
         // Simple pre-flight validation on decrypted PII
         #[derive(Deserialize)]
+        #[allow(dead_code)]
         struct PiiPayload {
             email: String,
             ssn: Option<String>,
@@ -390,7 +391,7 @@ impl exports::lethe::agent::contracts::Guest for Component {
     }
 
     fn forget_me(
-        req: exports::lethe::agent::contracts::GenericInput,
+        _req: exports::lethe::agent::contracts::GenericInput,
     ) -> Result<Vec<u8>, String> {
         // Retrieve calling user DID
         let user_did_bytes = host::tenant::tenant_context::calling_user_did()
