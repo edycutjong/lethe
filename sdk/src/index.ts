@@ -14,6 +14,32 @@ export interface ZkProof {
   publicSignals: string[];
 }
 
+// MOCK Groth16 proof points — fixed, NON-SECRET placeholder curve points.
+// These are NOT key material or secrets: a ZK proof is public by design and is
+// meant to be handed to a verifier. A real prover (snarkjs/circom) would compute
+// these from the witness; here only `publicSignals` is derived from the input.
+// Kept stable on purpose so the demo is deterministic — do not randomize.
+const MOCK_GROTH16_PROOF_POINTS: Pick<ZkProof, 'pi_a' | 'pi_b' | 'pi_c'> = {
+  pi_a: [
+    "0x11219b165b4c1bdc30c8cb080b06b3e4dc4ec2bc2ef82b9dc3c8c704f05eb112",
+    "0x06c28f9d0cba6be4dc4ec2bc2ef82b9dc3c8c704f05eb112efc4ebc01289cf08"
+  ],
+  pi_b: [
+    [
+      "0x1ab36cba6be4dc4ec2bc2ef82b9dc3c8c704f05eb112efc4ebc01289cf08b1a3",
+      "0x2bc8cb080b06b3e4dc4ec2bc2ef82b9dc3c8c704f05eb11211219b165b4c1bdc"
+    ],
+    [
+      "0x0cf82b9dc3c8c704f05eb11211219b165b4c1bdc30c8cb080b06b3e4dc4ec2b",
+      "0x15b4c1bdc30c8cb080b06b3e4dc4ec2bc2ef82b9dc3c8c704f05eb112efc4ebc"
+    ]
+  ],
+  pi_c: [
+    "0x2bc8cb080b06b3e4dc4ec2bc2ef82b9dc3c8c704f05eb11211219b165b4c1bdc",
+    "0x03c8c704f05eb11211219b165b4c1bdc30c8cb080b06b3e4dc4ec2bc2ef82b9d"
+  ]
+};
+
 export class LetheClient {
   private rpcUrl: string;
   private enclaveUrl: string;
@@ -35,26 +61,9 @@ export class LetheClient {
     // Format hash to fit in field element (simulate Poseidon commitment)
     const publicSignal = '0x' + hash;
 
-    // Return structured Groth16 proof
+    // Only publicSignals is input-derived; the proof points are fixed mock data.
     return {
-      pi_a: [
-        "0x11219b165b4c1bdc30c8cb080b06b3e4dc4ec2bc2ef82b9dc3c8c704f05eb112",
-        "0x06c28f9d0cba6be4dc4ec2bc2ef82b9dc3c8c704f05eb112efc4ebc01289cf08"
-      ],
-      pi_b: [
-        [
-          "0x1ab36cba6be4dc4ec2bc2ef82b9dc3c8c704f05eb112efc4ebc01289cf08b1a3",
-          "0x2bc8cb080b06b3e4dc4ec2bc2ef82b9dc3c8c704f05eb11211219b165b4c1bdc"
-        ],
-        [
-          "0x0cf82b9dc3c8c704f05eb11211219b165b4c1bdc30c8cb080b06b3e4dc4ec2b",
-          "0x15b4c1bdc30c8cb080b06b3e4dc4ec2bc2ef82b9dc3c8c704f05eb112efc4ebc"
-        ]
-      ],
-      pi_c: [
-        "0x2bc8cb080b06b3e4dc4ec2bc2ef82b9dc3c8c704f05eb11211219b165b4c1bdc",
-        "0x03c8c704f05eb11211219b165b4c1bdc30c8cb080b06b3e4dc4ec2bc2ef82b9d"
-      ],
+      ...MOCK_GROTH16_PROOF_POINTS,
       publicSignals: [publicSignal]
     };
   }
