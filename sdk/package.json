@@ -9,6 +9,17 @@
     "test": "jest --coverage"
   },
   "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edycutjong/lethe.git"
+  },
+  "bugs": {
+    "url": "https://github.com/edycutjong/lethe/issues"
+  },
+  "homepage": "https://github.com/edycutjong/lethe#readme",
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "typescript": "^5.0.0",
     "@types/node": "^20.0.0",
