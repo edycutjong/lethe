@@ -194,7 +194,8 @@ export default function LetheDashboard() {
   const handleFundCampaign = async () => {
     await addLog('agent', 'Preparing ERC-7715 transaction batch request...');
     setTimeout(async () => {
-      const receipt = '0x' + Array.from({ length: 64 }, () => Math.floor(Math.random() * 16).toString(16)).join('');
+      const randomBuf = window.crypto.getRandomValues(new Uint8Array(32));
+      const receipt = '0x' + Array.from(randomBuf, b => b.toString(16).padStart(2, '0')).join('');
       setTxReceipt(receipt);
       setIsFunded(true);
       await addLog('enclave', 'Verified $500.00 USDC Agent SLA collateral locked in LetheStakingRegistry.');

@@ -186,7 +186,7 @@ app.post('/api/erasure/fire', async (req, res) => {
     let responseCode = 200;
     
     // Simulate rate limit or error scenario in seeding (whitepages-mock vs zoominfo-mock)
-    if (brokerId === 'whitepages-mock' && Math.random() < 0.2) {
+    if (brokerId === 'whitepages-mock' && crypto.randomInt(0, 100) < 20) {
       logTelemetry('enclave', `Broker WhitePages returned 429 Rate Limit. Outbox queue will retry...`);
       responseCode = 429;
     }

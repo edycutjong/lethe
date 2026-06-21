@@ -65,7 +65,10 @@ export default function VerifyIntegrations() {
     if (!confirm) return;
 
     const newTx: Transaction = {
-      hash: '0x' + Math.random().toString(16).substring(2, 10) + '...' + Math.random().toString(16).substring(2, 6),
+      hash: (() => {
+        const arr = window.crypto.getRandomValues(new Uint32Array(2));
+        return '0x' + arr[0].toString(16).padStart(8, '0') + '...' + (arr[1] & 0xffff).toString(16).padStart(4, '0');
+      })(),
       method: 'challengeSLA',
       block: 4589210,
       age: 'Just now',
