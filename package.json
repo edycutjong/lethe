@@ -1,6 +1,6 @@
 {
   "name": "lethe-root",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "private": true,
   "scripts": {
     "gen:keys": "node scripts/gen-enclave-keypair.js",
