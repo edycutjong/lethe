@@ -466,7 +466,7 @@ describe('Lethe Secure Right-To-Erasure Suite', () => {
 
     // Run multiple times to trigger rate limit (has a 20% random chance)
     let hit429 = false;
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 100; i++) {
       const res = await fetch(`${baseUrl}/api/erasure/fire`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -483,7 +483,7 @@ describe('Lethe Secure Right-To-Erasure Suite', () => {
         break;
       }
     }
-    // We expect to hit 429 at least once in 15 tries due to the 20% random chance.
+    // We expect to hit 429 at least once in 100 tries due to the 20% random chance.
     expect(hit429).toBe(true);
   });
 
