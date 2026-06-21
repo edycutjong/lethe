@@ -8,6 +8,7 @@
   <br/>
 
   [![Live Demo](https://img.shields.io/badge/🚀_Live-Demo-06b6d4?style=for-the-badge)](https://lethe.edycu.dev)
+  [![Agent API](https://img.shields.io/badge/🤖_Agent-API-06b6d4?style=for-the-badge)](https://agent.lethe.edycu.dev)
   [![Pitch Video](https://img.shields.io/badge/🎬_Pitch-Video-ef4444?style=for-the-badge)](https://youtu.be/lethe-demo-video)
   [![Pitch Deck](https://img.shields.io/badge/📊_Pitch-Deck-f59e0b?style=for-the-badge)](https://lethe.edycu.dev/pitch.html)
   [![Built for T3ADK](https://img.shields.io/badge/DoraHacks-T3ADK_Launch_2026-8b5cf6?style=for-the-badge)](https://dorahacks.io/hackathon/t3adkdevchallenge)
