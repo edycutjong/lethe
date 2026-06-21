@@ -290,15 +290,19 @@ jobs:
 
   # ── STAGE 7: Publish to npmjs (main only) ──────────────────
   publish-npm:
-    name: "Stage 7 · Publish to npmjs"
+    name: "Stage 7 · Publish to npmjs & GitHub Packages"
     needs: [deploy-gate]
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node.js for npmjs
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -316,7 +320,7 @@ jobs:
           npm ci
           npm run build
 
-      - name: Check and Publish SDK
+      - name: Check and Publish SDK to npmjs
         run: |
           cd sdk
           CURRENT_VERSION=$(node -p "require('./package.json').version")
@@ -324,7 +328,7 @@ jobs:
             echo "Version $CURRENT_VERSION of @edycutjong/lethe-sdk is already published to npmjs, skipping."
           else
             echo "Publishing @edycutjong/lethe-sdk version $CURRENT_VERSION to npmjs..."
-            npm publish --access public
+            npm publish --provenance --access public --ignore-scripts
           fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -335,7 +339,7 @@ jobs:
           npm ci
           npm run build
 
-      - name: Check and Publish CLI
+      - name: Check and Publish CLI to npmjs
         run: |
           cd cli
           CURRENT_VERSION=$(node -p "require('./package.json').version")
@@ -343,10 +347,30 @@ jobs:
             echo "Version $CURRENT_VERSION of @edycutjong/lethe-cli is already published to npmjs, skipping."
           else
             echo "Publishing @edycutjong/lethe-cli version $CURRENT_VERSION to npmjs..."
-            npm publish --access public
+            npm publish --provenance --access public --ignore-scripts
           fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Setup Node.js for GitHub Packages
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: "https://npm.pkg.github.com"
+
+      - name: Publish SDK to GitHub Packages
+        run: |
+          cd sdk
+          npm publish --access public --ignore-scripts || echo "SDK already published or error"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish CLI to GitHub Packages
+        run: |
+          cd cli
+          npm publish --access public --ignore-scripts || echo "CLI already published or error"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # ── STAGE 8: Deploy to Railway (main only) ────────────────
   deploy-railway:
