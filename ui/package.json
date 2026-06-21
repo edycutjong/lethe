@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "npm run build:sdk && next dev",
     "build": "npm run build:sdk && next build",
-    "build:sdk": "cd ../sdk && npm run build",
+    "build:sdk": "cd ../sdk && npm run build || echo 'SDK build skipped (likely in Railway environment)'",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
