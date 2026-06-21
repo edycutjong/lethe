@@ -8,7 +8,7 @@
     "bootstrap:sdk": "cd sdk && npm install",
     "bootstrap:agent": "cd agent && npm install",
     "bootstrap:cli": "cd cli && npm install",
-    "bootstrap:ui": "cd ui && npm install",
+    "bootstrap:ui": "cd ui && npm install && npm install ../sdk --no-save",
     "build": "npm run build:sdk && npm run build:agent && npm run build:cli && npm run build:contract && npm run build:ui",
     "build:sdk": "cd sdk && npm run build",
     "build:agent": "cd agent && npm run build",

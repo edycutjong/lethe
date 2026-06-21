@@ -57,7 +57,10 @@ jobs:
 
       # Quality Check for UI
       - name: Install UI dependencies
-        run: cd ui && npm ci
+        run: |
+          cd ui
+          npm ci
+          npm install ../sdk --no-save
       - name: Lint UI
         run: cd ui && npm run lint
       - name: Typecheck UI
@@ -174,6 +177,7 @@ jobs:
         run: |
           cd ui
           npm ci
+          npm install ../sdk --no-save
           npm run build
 
       - name: Check bundle size
@@ -222,7 +226,7 @@ jobs:
         run: |
           cd sdk && npm ci && npm run build
           cd ../agent && npm ci
-          cd ../ui && npm ci && npm run build
+          cd ../ui && npm ci && npm install ../sdk --no-save && npm run build
 
       - name: Install Playwright browsers
         run: cd ui && npx playwright install --with-deps chromium
@@ -265,7 +269,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd sdk && npm ci && npm run build
-          cd ../ui && npm ci && npm run build
+          cd ../ui && npm ci && npm install ../sdk --no-save && npm run build
 
       - name: Lighthouse CI
         run: |

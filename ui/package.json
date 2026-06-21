@@ -3,9 +3,9 @@
   "version": "1.0.3",
   "private": true,
   "scripts": {
-    "dev": "npm run build:sdk && next dev",
-    "build": "npm run build:sdk && next build",
-    "build:sdk": "cd ../sdk && npm run build || echo 'SDK build skipped (likely in Railway environment)'",
+    "dev": "next dev",
+    "build": "next build",
+    "build:sdk": "cd ../sdk && npm run build",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
@@ -19,7 +19,7 @@
     "next": "16.2.9",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "@edycutjong/lethe-sdk": "file:../sdk"
+    "@edycutjong/lethe-sdk": "^1.0.3"
   },
   "devDependencies": {
     "@lhci/cli": "^0.14.0",
