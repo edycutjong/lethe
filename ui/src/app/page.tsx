@@ -79,7 +79,7 @@ export default function LetheDashboard() {
   // Timer SLA
   const [slaTime, setSlaTime] = useState<number>(72 * 60 * 60); // 72 hours in seconds
 
-  const terminalEndRef = useRef<HTMLDivElement>(null);
+  const terminalContainerRef = useRef<HTMLDivElement>(null);
 
   // Poll telemetry logs from the coordinator agent
   useEffect(() => {
@@ -117,10 +117,10 @@ export default function LetheDashboard() {
     }
   }, [campaignState]);
 
-  // Scroll terminal logs to bottom
+  // Scroll terminal logs container to bottom internally
   useEffect(() => {
-    if (terminalEndRef.current) {
-      terminalEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (terminalContainerRef.current) {
+      terminalContainerRef.current.scrollTop = terminalContainerRef.current.scrollHeight;
     }
   }, [logs]);
 
@@ -616,7 +616,7 @@ export default function LetheDashboard() {
                 <span className="text-[10px] text-slate-500">Agent vs TEE Egress</span>
               </div>
 
-              <div className="grow overflow-y-auto p-4 flex flex-col gap-4 leading-relaxed">
+              <div ref={terminalContainerRef} className="grow overflow-y-auto p-4 flex flex-col gap-4 leading-relaxed">
                 {logs.length === 0 ? (
                   <div className="grow flex justify-center items-center text-slate-600 text-xs italic">
                     Waiting for campaign initiation...
@@ -640,7 +640,6 @@ export default function LetheDashboard() {
                     </div>
                   ))
                 )}
-                <div ref={terminalEndRef} />
               </div>
             </div>
 

@@ -25,6 +25,8 @@
   ![Intel TDX](https://img.shields.io/badge/Intel_TDX-0071C5?style=flat&logo=intel&logoColor=white)
   ![Terminal 3](https://img.shields.io/badge/T3_ADK-8b5cf6?style=flat)
   [![CI](https://github.com/edycutjong/lethe/actions/workflows/ci.yml/badge.svg)](https://github.com/edycutjong/lethe/actions/workflows/ci.yml)
+  [![npm sdk version](https://img.shields.io/npm/v/@edycutjong/lethe-sdk.svg?style=flat&logo=npm&color=cba258)](https://www.npmjs.com/package/@edycutjong/lethe-sdk)
+  [![npm cli version](https://img.shields.io/npm/v/@edycutjong/lethe-cli.svg?style=flat&logo=npm&color=cba258)](https://www.npmjs.com/package/@edycutjong/lethe-cli)
 
 </div>
 
