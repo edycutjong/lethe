@@ -68,7 +68,7 @@ jobs:
 
       # Quality Check for Rust Contract
       - name: Setup Rust Toolchain
-        uses: actions-rust-lang/setup-rust-toolchain@v1
+        uses: actions-rust-lang/setup-rust-toolchain@v2
       - name: Run Contract Cargo Tests
         run: cd contract && cargo test
 
@@ -146,7 +146,7 @@ jobs:
             ui/package-lock.json
 
       - name: Setup Rust Toolchain
-        uses: actions-rust-lang/setup-rust-toolchain@v1
+        uses: actions-rust-lang/setup-rust-toolchain@v2
         with:
           target: wasm32-wasip2
 
